@@ -1,21 +1,18 @@
-  
 <template>
-    <v-app>
+    <v-app class="background-color">
         <v-main>
             <v-container class="pa-0">
                 <!-- Header -->
                 <v-card class="mx-auto" color="grey-lighten-3">
                     <v-layout>
-                        <v-app-bar color="teal-darken-4" image="https://picsum.photos/1920/1080?random">
+                        <v-app-bar v-if="!$isMobile()" color="teal-darken-4" image="https://picsum.photos/1920/1080?random">
                             <template v-slot:image>
                                 <v-img gradient="to top right, rgba(19,84,122,.8), rgba(128,208,199,.8)"></v-img>
                             </template>
 
                             <template v-slot:prepend>
                                 <router-link to="/" class="title-link">
-                                    <v-app-bar-title><v-icon aria-hidden="false">
-                                            mdi-fire
-                                        </v-icon>HIKANOS
+                                    <v-app-bar-title><v-icon aria-hidden="false"> mdi-fire </v-icon>HIKANOS
                                     </v-app-bar-title>
                                 </router-link>
                             </template>
@@ -41,7 +38,29 @@
                             </v-btn>
                         </v-app-bar>
 
+                        <v-app-bar v-else color="teal-darken-4" image="https://picsum.photos/1920/1080?random">
+                            <template v-slot:image>
+                                <v-img gradient="to top right, rgba(19,84,122,.8), rgba(128,208,199,.8)"></v-img>
+                            </template>
+                            <template v-slot:prepend>
+                                <router-link to="/" class="title-link">
+                                    <v-app-bar-title><v-icon aria-hidden="false"> mdi-fire </v-icon>HIKANOS
+                                    </v-app-bar-title>
+                                </router-link>
+                            </template>
+
+                            <v-spacer></v-spacer>
+                            <v-btn NuxtLink icon>
+                                <v-icon>mdi-magnify</v-icon>
+                            </v-btn>
+                        </v-app-bar>
                         <v-main>
+                            <v-container>
+
+                                <slot />
+
+
+                            </v-container>
 
                         </v-main>
                     </v-layout>
@@ -49,26 +68,41 @@
 
                 <!-- end header  -->
                 <!-- Content -->
-
-                <slot />
                 <!-- Content -->
             </v-container>
         </v-main>
 
         <!-- Footer -->
+        <v-bottom-navigation v-if="$isMobile()" class="bottom-nav" v-model="value" active color="teal-darken-4">
+            <v-btn NuxtLink to="/birthday" prepend-icon="mdi-cake-variant" variant="text">
+            </v-btn>
+            <v-btn NuxtLink to="/anniversary" prepend-icon="mdi-human-male-female" variant="text">
+            </v-btn>
 
-        <v-container class="pa-0">
-            <p>gpijsjaktim@2024</p>
-        </v-container>
+            <v-btn NuxtLink to="/">
+                <v-icon icon="mdi-fire" size="x-large"></v-icon>
 
+            </v-btn>
+
+            <v-btn NuxtLink to="/event" prepend-icon="mdi-calendar-clock" variant="text">
+            </v-btn>
+            <v-btn NuxtLink to="/news" prepend-icon="mdi-newspaper-variant-multiple" variant="text">
+
+            </v-btn>
+        </v-bottom-navigation>
         <!-- Footer -->
-
-
     </v-app>
 </template>
 
+<script>
+export default {
+    data: () => ({
+        icons: ["mdi-whatsapp", "mdi-facebook", "mdi-instagram"],
+        value: 0
+    }),
+};
+</script>
 
-  
 <style scoped>
 /* Style the router-link to look like a link */
 .title-link {
@@ -85,5 +119,24 @@
     /* Your active color */
     color: white;
     /* Your active text color */
+}
+
+.background-color {
+    background-color: #f0f0f0;
+    /* Set your desired background color here */
+}
+
+.overflow-container {
+    max-height: calc(100vh - 56px);
+    /* Adjust based on your design */
+    overflow-y: auto;
+}
+
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    z-index: 1000;
+    /* Adjust z-index if necessary */
 }
 </style>

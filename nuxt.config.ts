@@ -11,7 +11,8 @@ export default defineNuxtConfig({
     }
   },
   modules: [
-    'vuetify-nuxt-module'
+    'vuetify-nuxt-module',
+    '@nuxtjs/device',
   ],
   vuetify: {
     moduleOptions: {
@@ -27,4 +28,7 @@ export default defineNuxtConfig({
       baseURL: process.env.BASE_URL || 'https://services-jaktim.gpijalansuci.org/',
     },
   },
+  plugins: [
+    './plugins/device.js'
+  ],
 });
