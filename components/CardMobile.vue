@@ -3,9 +3,7 @@
         <v-hover v-slot="{ isHovering, props }" close-delay="100">
             <v-card class="mx-auto" max-width="800" :elevation="isHovering ? 16 : 2" :class="{ 'on-hover': isHovering }"
                 v-bind="props" :disabled="disabled">
-                <!-- Increased max-width for better visibility -->
                 <v-row>
-
                     <v-col cols="12"> <!-- Adjust column width based on your design -->
                         <v-card-title class="title">
                             <v-row>
@@ -16,13 +14,9 @@
                                     {{ data['name'] }}
                                 </v-col>
                             </v-row>
-
-
-
                         </v-card-title>
                         <v-card-text v-show='isShowCardText != ""'>
                             <p v-html="isShowCardText"></p>
-
                         </v-card-text>
                         <v-card-actions v-show="isActionCard">
                             <v-btn color="teal-darken-4">
@@ -38,7 +32,6 @@
                             </div>
                         </v-card-actions>
                     </v-col>
-
                 </v-row>
             </v-card>
         </v-hover>
@@ -47,23 +40,19 @@
         <v-card class="mx-auto" max-width="800" :disabled="disabled">
             <!-- Increased max-width for better visibility -->
             <v-row>
-                <v-col cols="12" :md="imageSize"> <!-- Adjust column width based on your design -->
-                    <v-img class="align-end text-white" gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.2)" cover
-                        src="../assets/pakeddy.jpg">
-                        <!-- Leave image content here if needed -->
-                    </v-img>
-                </v-col>
-                <v-col cols="12" :md="contentSize"> <!-- Adjust column width based on your design -->
+                <v-col cols="12"> <!-- Adjust column width based on your design -->
                     <v-card-title class="title">
-                        <div class="text-wrap">
-                            <v-avatar v-show="isShowAvatar" image="../assets/pakeddy.jpg"></v-avatar>
-                            {{ data['name'] }}
-                        </div>
-
+                        <v-row>
+                            <v-col cols="4">
+                                <v-avatar size="80" v-show="isShowAvatar" image="../assets/pakeddy.jpg"></v-avatar>
+                            </v-col>
+                            <v-col cols="8" class="text-wrap">
+                                {{ data['name'] }}
+                            </v-col>
+                        </v-row>
                     </v-card-title>
                     <v-card-text v-show='isShowCardText != ""'>
                         <p v-html="isShowCardText"></p>
-
                     </v-card-text>
                     <v-card-actions v-show="isActionCard">
                         <v-btn color="teal-darken-4">
@@ -79,8 +68,6 @@
                         </div>
                     </v-card-actions>
                 </v-col>
-
-
             </v-row>
         </v-card>
     </div>

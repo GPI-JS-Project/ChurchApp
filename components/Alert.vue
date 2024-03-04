@@ -23,7 +23,7 @@ export default defineComponent({
         },
         text: {
             type: String,
-            default: "Hari ini tidak ada ulang tahun"
+            default: "Data not found"
         },
         variant: {
             type: String as () => 'flat' | 'text' | 'elevated' | 'tonal' | 'outlined' | 'plain' | undefined,

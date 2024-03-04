@@ -1,107 +1,204 @@
 <template>
-    <!-- <v-card elevation="2" rounded> -->
-    <v-container>
-        <v-row>
-            <v-col cols="12" lg="8" md="8" sm="6">
-                <div v-if="todayBirthday.length > 0">
-                    <h3 class="align-right mb-5 text-medium-emphasis"> <v-icon class="me-1"
-                            icon="mdi-cake-variant"></v-icon> Today</h3>
-                </div>
-                <div class="mb-5 text-medium-emphasis" v-else>
-                    <Alert text="Hari ini tidak ada ulang tahun" />
-                </div>
-                <BirthdaySkeleton v-if="pending" />
-                <v-row v-else>
-                    <v-col v-for="user in    todayBirthday   " :key="user['id']" cols="12" sm="12" md="12" lg="12">
-                        <CardMobile v-if="$isMobile()" :data="user" :isHover=true buttonName="Kirim ucapan"
-                            :isActionCard=true :isShowAvatar="true"
-                            :isShowCardText="`<p>Selamat Ulang Tahun <span class='text-decoration-underline'>` + user['name'] + `</span> Panjang umur, sehat selalu <br> Tuhan Yesus memberkati </p>`" />
+    <Filter :isActive="isActive" :buttons="buttons" @toggle-chip="handleToggleChip" title="Birthday" />
+    <v-row>
+        <v-col cols="12">
+            <v-card class="rounded-xl">
+                <v-container>
+                    <div v-if="!pending && result.length > 0">
+                        <v-row>
+                            <v-col v-for="user in result" :key="user['churchID']" cols="12" sm="12" md="12" lg="12">
+                                <CardMobile v-if="$isMobile()" :data="user" :isHover="false" buttonName="Kirim ucapan"
+                                    :isActionCard="true" :isShowAvatar="true" :isShowCardText="`<p>Selamat Ulang Tahun <span class='text-decoration-underline'>` +
+        user['name'] +
+        `</span> Panjang umur, sehat selalu <br> Tuhan Yesus memberkati </p>`" @action-button="handleActionButton" />
 
-
-                        <Card v-else :data="user" :isHover=true buttonName="Kirim ucapan" :isActionCard=true
-                            :isShowAvatar="true"
-                            :isShowCardText="`<p>Selamat Ulang Tahun <span class='text-decoration-underline'>` + user['name'] + `</span> Panjang umur, sehat selalu <br> Tuhan Yesus memberkati </p>`" />
-
-
-
-                    </v-col>
-                </v-row>
-            </v-col>
-            <v-col cols="12" lg="4" md="4" sm="6">
-                <div v-if="tomorrowBirthday.length > 0">
-                    <h3 class="align-right mb-5 text-medium-emphasis"> <v-icon class="me-1"
-                            icon="mdi-cake-variant"></v-icon> Tomorrow</h3>
-                </div>
-                <div v-else>
-                    <Alert text="Besok ini tidak ada ulang tahun" />
-                </div>
-                <v-col v-for="   user    in    tomorrowBirthday   " :key="user['id']" cols="12" sm="6" md="6" lg="12">
-                    <Card :data="user" :isHover=true :isActionCard=false :imageSize="4" :contentSize="8" :disabled=true />
-                </v-col>
-            </v-col>
-        </v-row>
-    </v-container>
-    <!-- </v-card> -->
+                                <Card v-else :data="user" :isHover="true" buttonName="Kirim ucapan" :isActionCard="true"
+                                    :isShowAvatar="true" :isShowCardText="`<p>Selamat Ulang Tahun <span class='text-decoration-underline'>` +
+        user['name'] +
+        `</span> Panjang umur, sehat selalu <br> Tuhan Yesus memberkati </p>`" @action-button="handleActionButton" />
+                            </v-col>
+                        </v-row>
+                    </div>
+                    <div v-else-if="pending">
+                        <BirthdaySkeleton />
+                    </div>
+                    <div v-else class="mb-5 text-medium-emphasis">
+                        <Alert text="Tidak ada jemaat yang ulang tahun" />
+                    </div>
+                </v-container>
+            </v-card>
+        </v-col>
+    </v-row>
 </template>
 
-
 <script lang="ts">
-import { ref } from 'vue';
-import { useConfigFetch } from '@/composables/useConfigFetch'; // Assuming this is the correct path to your composable
-import BirthdaySkeleton from '@/components/BirthdaySkeleton.vue';
-import { type User } from '@/interfaces/User';
-import moment from 'moment';
-import 'moment/locale/id';
-export default {
-    components: {
-        BirthdaySkeleton
-    },
-    created() {
+import { ref, watch, onMounted } from "vue";
+import { useConfigFetch } from "@/composables/useConfigFetch"; // Assuming this is the correct path to your composable
+import type { BirthdayUser } from "@/interfaces/BirthdayUser";
+import { formatBirthdayToText } from '@/helper/formatHelper'; // Import the helper function
 
-        // Use Moment.js with French locale
-    },
+
+export default defineComponent({
     setup() {
-        moment.locale('id'); // Set locale to French
-        let todayBirthday = ref<User[]>([]);
-        let tomorrowBirthday = ref<User[]>([]);
-        let thisWeekBirthday = ref<User[]>([]);
-        const yearNow = moment().format('YYYY');
+        const pending = ref(true); // Define pending outside setup and initialize with ref
+        const result = ref<BirthdayUser[]>([]);
+        const isActive = ref(true);
+        const todayBirthday = ref<BirthdayUser[]>([]);
+        const tomorrowBirthday = ref<BirthdayUser[]>([]);
+        const thisWeekBirthday = ref<BirthdayUser[]>([]);
+        const thisMonthBirthday = ref<BirthdayUser[]>([]);
+        const buttons = ref([
+            { active: true, label: "Today", text: "Today", icon: "mdi-cake-variant" },
+            { active: false, label: "Tomorrow", text: "Tomorrow", icon: "mdi-gift-open-outline" },
+            { active: false, label: "ThisWeek", text: "This Week", icon: "mdi-calendar-week" },
+            { active: false, label: "ThisMonth", text: "This Month", icon: "mdi-calendar-month-outline" },
+        ]);
 
-        const { pending, data: users } = useConfigFetch<User[]>('birthday', {
-            lazy: true
+        const { data: users, refresh } = useConfigFetch<BirthdayUser[]>("birthday", {
+            lazy: true,
         });
-        if (!pending.value && Array.isArray(users.value)) {
+        if (Array.isArray(users.value)) {
+            const valueToday = users.value.filter((data) => data.due === "Today");
+            const valueTomorrow = users.value.filter((datas) => datas.due === "Tomorrow");
+            const valueThisWeek = users.value.filter((datas) => datas.due === "ThisWeek");
+            const valueThisMonth = users.value.filter((datas) => datas.due === "ThisMonth");
 
-            const valueToday = users.value.filter(data => data.due === 'ThisMonth');
-            todayBirthday.value = valueToday.map(user => ({
-                id: user.id,
+            todayBirthday.value = valueToday.map((user) => ({
+                churchID: user.churchID,
                 name: user.name,
                 email: user.email,
-                date: moment(user.date.toString()).locale('id').format('DD MMMM').concat(' ' + yearNow),
+                date: formatBirthdayToText(user.date.toString()),
                 due: user.due,
-                imageUrl: ""
+                imageUrl: "",
             }));
 
-            const valueTomorrow = users.value.filter(datas => datas.due === 'ThisMonth');
-            tomorrowBirthday.value = valueTomorrow.map(users => ({
-                id: users.id,
+            tomorrowBirthday.value = valueTomorrow.map((users) => ({
+                churchID: users.churchID,
                 name: users.name,
                 email: users.email,
-                date: moment(users.date.toString()).locale('id').format('DD MMMM').concat(' ' + yearNow),
+                date: formatBirthdayToText(users.date.toString()),
                 due: users.due,
-                imageUrl: ""
+                imageUrl: "",
             }));
+
+            thisWeekBirthday.value = valueThisWeek.map((users) => ({
+                churchID: users.churchID,
+                name: users.name,
+                email: users.email,
+                date: formatBirthdayToText(users.date.toString()),
+                due: users.due,
+                imageUrl: "",
+            }));
+
+            thisMonthBirthday.value = valueThisMonth.map((users) => ({
+                churchID: users.churchID,
+                name: users.name,
+                email: users.email,
+                date: formatBirthdayToText(users.date.toString()),
+                due: users.due,
+                imageUrl: "",
+            }));
+
+            result.value = todayBirthday.value; // Default to today's birthday
+            pending.value = false;
         }
+
+
+        watch(users, (newValue) => {
+            if (Array.isArray(newValue)) {
+                const valueToday = newValue.filter((data) => data.due === "Today");
+                const valueTomorrow = newValue.filter((datas) => datas.due === "Tomorrow");
+                const valueThisWeek = newValue.filter((datas) => datas.due === "ThisWeek");
+                const valueThisMonth = newValue.filter((datas) => datas.due === "ThisMonth");
+
+                todayBirthday.value = valueToday.map((user) => ({
+                    churchID: user.churchID,
+                    name: user.name,
+                    email: user.email,
+                    date: formatBirthdayToText(user.date.toString()),
+                    due: user.due,
+                    imageUrl: "",
+                }));
+
+                tomorrowBirthday.value = valueTomorrow.map((users) => ({
+                    churchID: users.churchID,
+                    name: users.name,
+                    email: users.email,
+                    date: formatBirthdayToText(users.date.toString()),
+                    due: users.due,
+                    imageUrl: "",
+                }));
+
+                thisWeekBirthday.value = valueThisWeek.map((users) => ({
+                    churchID: users.churchID,
+                    name: users.name,
+                    email: users.email,
+                    date: formatBirthdayToText(users.date.toString()),
+                    due: users.due,
+                    imageUrl: "",
+                }));
+
+                thisMonthBirthday.value = valueThisMonth.map((users) => ({
+                    churchID: users.churchID,
+                    name: users.name,
+                    email: users.email,
+                    date: formatBirthdayToText(users.date.toString()),
+                    due: users.due,
+                    imageUrl: "",
+                }));
+
+                result.value = todayBirthday.value; // Default to today's birthday
+            }
+            pending.value = false; // Set pending to false when data is loaded
+        });
+        const handleToggleChip = ({
+            isActive,
+            currentLabel,
+            newButtons,
+        }: {
+            isActive: boolean;
+            currentLabel: string;
+            newButtons: FilterButton[];
+        }) => {
+            switch (currentLabel) {
+                case "Today":
+                    result.value = todayBirthday.value;
+                    break;
+                case "Tomorrow":
+                    result.value = tomorrowBirthday.value;
+                    break;
+                case "ThisWeek":
+                    result.value = thisWeekBirthday.value;
+                    break;
+                case "ThisMonth":
+                    result.value = thisMonthBirthday.value;
+                    break;
+            }
+            isActive = isActive;
+            buttons.value = newButtons;
+        };
+
+        const handleActionButton = ({
+            churchID
+        }: {
+            churchID: string;
+        }) => {
+            console.log(churchID);
+        };
+
         return {
             pending,
-            todayBirthday,
-            tomorrowBirthday,
-            thisWeekBirthday
+            result,
+            buttons,
+            isActive,
+            handleToggleChip,
+            handleActionButton
         };
-    }
-};
+    },
+});
+
 </script>
-  
+
 <style scoped>
 /* Add styles for rounded corners */
 .rounded {
