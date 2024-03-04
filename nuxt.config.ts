@@ -11,8 +11,20 @@ export default defineNuxtConfig({
     }
   },
   modules: [
-    'vuetify-nuxt-module'
+    'vuetify-nuxt-module',
+    '@nuxtjs/device',
+    'dayjs-nuxt',
+    '@vite-pwa/nuxt'
   ],
+  plugins: [
+    './plugins/device.js'
+  ],
+  dayjs: {
+    locales: ['id'],
+    plugins: ['relativeTime', 'utc', 'timezone'],
+    defaultLocale: 'id',
+    defaultTimezone: 'Asia/Jakarta',
+  },
   vuetify: {
     moduleOptions: {
       /* module specific options */
@@ -24,7 +36,25 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   runtimeConfig: {
     public: {
-      baseURL: process.env.BASE_URL || 'https://services-jaktim.gpijalansuci.org/',
+      baseURL: process.env.BASE_URL || 'https://services-jaktim.gpijalansuci.org/api/v1/',
+    },
+  },
+  pwa: {
+    manifest: {
+      name: 'gpijsjaktim',
+      short_name: 'gpijsjaktim',
+      icons: [
+        {
+          src: './assets/icon512_rounded.png',
+          sizes: '192x192',
+          type: 'image/png',
+        },
+        {
+          src: './assets/icon512_rounded.png',
+          sizes: '512x512',
+          type: 'image/png',
+        },
+      ],
     },
   },
 });
