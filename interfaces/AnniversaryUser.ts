@@ -9,4 +9,5 @@ export interface AnniversaryUser {
     wife: String;
     wifeID: String;
     wifePhotoUrl: String;
+    desc:String;
 }
