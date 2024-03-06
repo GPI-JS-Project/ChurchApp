@@ -51,7 +51,7 @@
         </v-layout>
     </v-card>
 </template>
-  
+
 <style scoped>
 /* Style the router-link to look like a link */
 .title-link {

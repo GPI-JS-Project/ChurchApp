@@ -33,28 +33,38 @@ export default defineNuxtConfig({
       /* vuetify options */
     }
   },
-  devtools: { enabled: true },
+  devtools: { enabled: true }, 
   runtimeConfig: {
     public: {
       baseURL: process.env.BASE_URL || 'https://services-jaktim.gpijalansuci.org/api/v1/',
     },
   },
   pwa: {
+    devOptions: {
+      enabled:true,
+      type:"module"
+    },
+    
+    workbox: {
+      navigateFallback:"/"
+    },
     manifest: {
       name: 'gpijsjaktim',
       short_name: 'gpijsjaktim',
+      description: "GPI 'Jalan Suci' Jaktim",
       icons: [
         {
-          src: './assets/icon512_rounded.png',
+          src: 'icons/icon512_rounded.png',
           sizes: '192x192',
           type: 'image/png',
         },
         {
-          src: './assets/icon512_rounded.png',
+          src: 'icons/icon512_rounded.png',
           sizes: '512x512',
           type: 'image/png',
         },
       ],
     },
-  },
+    
+  }
 });
