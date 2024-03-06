@@ -39,7 +39,7 @@ jobs:
           server: jaktim.gpijalansuci.org
           username: jaktim.gpijalansuci.org
           password: jaktim@2024
-          local-dir: /
+          local-dir: ./dist
           exclude: |
             **/.git*
             **/.git*/**
