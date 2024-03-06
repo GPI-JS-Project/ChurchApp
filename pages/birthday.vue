@@ -25,6 +25,11 @@
                     <div v-else class="mb-5 text-medium-emphasis">
                         <Alert text="Tidak ada jemaat yang ulang tahun" />
                     </div>
+
+                    <div v-show="showCommentDialog">
+                        <Dialog :dialog="showCommentDialog" @update:dialog="showCommentDialog = $event" />
+                    </div>
+
                 </v-container>
             </v-card>
         </v-col>
@@ -36,13 +41,18 @@ import { ref, watch, onMounted } from "vue";
 import { useConfigFetch } from "@/composables/useConfigFetch"; // Assuming this is the correct path to your composable
 import type { BirthdayUser } from "@/interfaces/BirthdayUser";
 import { formatBirthdayToText } from '@/helper/formatHelper'; // Import the helper function
+import Dialog from '@/components/Dialog.vue';
 
 
 export default defineComponent({
+    components: {
+        Dialog,
+    },
     setup() {
         const pending = ref(true); // Define pending outside setup and initialize with ref
         const result = ref<BirthdayUser[]>([]);
         const isActive = ref(true);
+        const showCommentDialog = ref<boolean>(false);
         const todayBirthday = ref<BirthdayUser[]>([]);
         const tomorrowBirthday = ref<BirthdayUser[]>([]);
         const thisWeekBirthday = ref<BirthdayUser[]>([]);
@@ -178,12 +188,10 @@ export default defineComponent({
             buttons.value = newButtons;
         };
 
-        const handleActionButton = ({
-            churchID
-        }: {
-            churchID: string;
-        }) => {
-            console.log(churchID);
+        const handleActionButton = ({ churchID }: { churchID: string }) => {
+
+            showCommentDialog.value = true;
+            console.log(showCommentDialog);
         };
 
         return {
@@ -192,7 +200,8 @@ export default defineComponent({
             buttons,
             isActive,
             handleToggleChip,
-            handleActionButton
+            handleActionButton,
+            showCommentDialog
         };
     },
 });

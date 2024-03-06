@@ -19,7 +19,7 @@
                             <p v-html="isShowCardText"></p>
                         </v-card-text>
                         <v-card-actions v-show="isActionCard">
-                            <v-btn color="teal-darken-4">
+                            <v-btn @click="actions(data['churchID'])" color="teal-darken-4">
                                 {{ buttonName }}
                             </v-btn>
                             <v-spacer></v-spacer>
@@ -55,7 +55,7 @@
                         <p v-html="isShowCardText"></p>
                     </v-card-text>
                     <v-card-actions v-show="isActionCard">
-                        <v-btn color="teal-darken-4">
+                        <v-btn @click="actions(data['churchID'])" color="teal-darken-4">
                             {{ buttonName }}
                         </v-btn>
                         <v-spacer></v-spacer>
@@ -114,8 +114,10 @@ export default defineComponent({
             default: 9
         }
     },
-    data() {
-
+    methods: {
+        actions(churchID: string) {
+            this.$emit('action-button', { churchID } as { churchID: string });
+        }
     }
 });
 </script>

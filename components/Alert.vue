@@ -29,9 +29,6 @@ export default defineComponent({
             type: String as () => 'flat' | 'text' | 'elevated' | 'tonal' | 'outlined' | 'plain' | undefined,
             default: "outlined",
         }
-    },
-    data() {
-
     }
 });
 </script>
