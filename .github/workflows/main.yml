@@ -1,13 +1,11 @@
 name: Workflow CI/CD GPI JS JAKTIM
 
 # Control when the action will run
-
 on:
-  push: 
-     branches: 
-        - main
-  
-  # Allow you to run this workflow manualy from the actions tab
+  push:
+    branches:
+      - main
+  # Allow you to run this workflow manually from the actions tab
   workflow_dispatch:
 
 jobs:
@@ -16,37 +14,36 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@main  
- 
-  Production:
-      runs-on: ubuntu-latest
-      environment: Production
-      steps: 
-        - name: Checkout repository
-          uses: actions/checkout@v2
+        uses: actions/checkout@main
 
-        - name: Use Node.js 18.13.0
-          uses: actions/setup-node@v3
-          with:
-            node-version: 'latest'
+  production:
+    runs-on: ubuntu-latest
+    environment: Production
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-        - name: 🔨 Build Project
-          run: |
-            npm install 
-            npm run build
+      - name: Use Node.js 18.13.0
+        uses: actions/setup-node@v3
+        with:
+          node-version: 'latest'
 
-        - name: Sync files to hosting
-          uses: SamKirkland/FTP-Deploy-Action@4.3.2
-          with:
-            server: jaktim.gpijalansuci.org
-            username: jaktim.gpijalansuci.org
-            password: jaktim@2024
-            local-dir: dist/
-            exclude: |
-              **/.git*
-              **/.git*/**
-              **/node_modules/**
-              public
-              src
-              /dist
-               
+      - name: 🔨 Build Project
+        run: |
+          npm install
+          npm run build
+
+      - name: Sync files to hosting
+        uses: SamKirkland/FTP-Deploy-Action@4.3.2
+        with:
+          server: jaktim.gpijalansuci.org
+          username: jaktim.gpijalansuci.org
+          password: jaktim@2024
+          local-dir: dist/
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            public
+            src
+            /dist
