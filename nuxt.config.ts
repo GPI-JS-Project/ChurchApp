@@ -52,6 +52,7 @@ export default defineNuxtConfig({
       name: 'gpijsjaktim',
       short_name: 'gpijsjaktim',
       description: "GPI 'Jalan Suci' Jaktim",
+      theme_color:"",
       icons: [
         {
           src: 'icons/icon512_rounded.png',
