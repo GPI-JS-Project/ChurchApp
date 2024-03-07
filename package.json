@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "nuxt build",
+    "build": "npx nuxi generate",
     "dev": "nuxt dev --port 8000",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
