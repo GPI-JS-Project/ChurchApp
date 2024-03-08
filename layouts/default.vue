@@ -39,7 +39,7 @@
                         </v-btn>
                     </v-app-bar>
 
-                    <v-app-bar elevation="0" v-else>
+                    <v-app-bar class="rounded-lg" elevation="0" v-if="$isMobile()">
 
                         <template v-slot:prepend>
                             <router-link to="/" class="title-link">

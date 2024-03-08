@@ -47,7 +47,12 @@
                                 <v-avatar size="80" v-show="isShowAvatar" image="../assets/pakeddy.jpg"></v-avatar>
                             </v-col>
                             <v-col cols="8" class="text-wrap">
-                                {{ data['name'] }}
+
+                                <v-chip color="teal" class="ma-2" density="compact">
+                                    {{ data['date'] }}
+                                </v-chip>
+                                <p>{{ data['name'] }}</p>
+
                             </v-col>
                         </v-row>
                     </v-card-title>
