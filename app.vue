@@ -9,6 +9,7 @@
 import { onMounted } from 'vue';
 import { initializeApp } from 'firebase/app';
 import { getMessaging, getToken, onMessage } from 'firebase/messaging';
+import { useConfigFetch, useConfigPost } from "@/composables/useConfigFetch"; // Assuming this is the correct path to your composable
 
 const firebaseConfig = {
   // Your Firebase config
@@ -33,6 +34,28 @@ onMounted(() => {
     .then((currentToken) => {
       if (currentToken) {
         console.log('Token:', currentToken);
+
+        // send payload to server
+
+        // Make the POST request
+        const postData = {
+          token: currentToken,
+          ip: "10.10.10.101.12",
+          device: "chrome",
+          location: "indonesia"
+        };
+        useConfigPost('/messaging', postData)
+          .then(response => {
+            // Handle successful response
+            console.log('Response:', response);
+          })
+          .catch(error => {
+            // Handle error
+            console.error('Error:', error);
+          });
+
+
+
       } else {
         console.log('No registration token available. Request permission to generate one.');
       }
