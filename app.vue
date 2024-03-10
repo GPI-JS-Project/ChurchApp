@@ -30,7 +30,7 @@ onMounted(() => {
     console.log('Message received.', payload);
   });
 
-  getToken(messaging, { vapidKey: 'BCq0MCTI2I8BVYMSNYkp01DpkyCGa-Ou01SgNzh3utt0kiqUOdYzFmvmqPibsHgl614O3GVyPvEHal0keCGB5WM' })
+  getToken(messaging, { vapidKey: 'BGsBEcW8C6lsHuMOQJKH2RSnEFvOD5-GFTHnKbAGl_3bOS1dCXX5IXr0zs5eyPBTEKOzyPPincOB5g9F-v6UU90' })
     .then((currentToken) => {
       if (currentToken) {
         console.log('Token:', currentToken);
