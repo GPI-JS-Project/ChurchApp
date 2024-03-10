@@ -22,7 +22,23 @@ const firebaseConfig = {
   measurementId: "G-1JN60DY70G"
 };
 
+
+interface getIP {
+  ip: String;
+}
+
+interface getLocation {
+  country_code: String;
+  country_name: String;
+  city: String;
+  state: String;
+  latitude: String,
+  longtude: String;
+}
+
 onMounted(() => {
+
+
   const app = initializeApp(firebaseConfig);
   const messaging = getMessaging(app);
 
@@ -31,23 +47,30 @@ onMounted(() => {
   });
 
   getToken(messaging, { vapidKey: 'BGsBEcW8C6lsHuMOQJKH2RSnEFvOD5-GFTHnKbAGl_3bOS1dCXX5IXr0zs5eyPBTEKOzyPPincOB5g9F-v6UU90' })
-    .then((currentToken) => {
+    .then(async (currentToken) => {
       if (currentToken) {
         console.log('Token:', currentToken);
 
-        // send payload to server
+        const { data: ipAddress } = await useFetch('https://api.ipify.org?format=json');
+        const getIPAddress = ipAddress.value as getIP;
+
+
+        const { data: currentLocation } = await useFetch<Object>(`https://geolocation-db.com/json/${ipAddress}`);
+        const location = currentLocation.value as string;
+        const mappingLocation = JSON.parse(location) as getLocation;
 
         // Make the POST request
         const postData = {
           token: currentToken,
-          ip: "10.10.10.101.12",
-          device: "chrome",
-          location: "indonesia"
+          ip: getIPAddress.ip,
+          device: navigator.platform,
+          location: mappingLocation.city
         };
+
         useConfigPost('/messaging', postData)
           .then(response => {
             // Handle successful response
-            console.log('Response:', response);
+            console.log(response.data.value);
           })
           .catch(error => {
             // Handle error
