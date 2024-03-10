@@ -67,7 +67,7 @@ onMounted(() => {
           location: mappingLocation.city
         };
 
-        useConfigPost('/messaging', postData)
+        useConfigPost('/notification', postData)
           .then(response => {
             // Handle successful response
             console.log(response.data.value);
