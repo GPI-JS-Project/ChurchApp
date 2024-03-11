@@ -70,13 +70,4 @@ export default defineNuxtConfig({
     },
     
   },
-  vite: {
-    build: {
-      rollupOptions: {
-        output: {
-          assetFileNames: '[name].[hash].[ext]'
-        }
-      }
-    }
-  },
 });

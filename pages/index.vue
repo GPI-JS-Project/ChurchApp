@@ -1,13 +1,5 @@
 <template>
     <div>
-        <h1>{{ appConfig.title }}</h1>
-
-
-
+        <h1>Home Page</h1>
     </div>
 </template>
-  
-
-<script setup lang="ts">
-const appConfig = useAppConfig()
-</script>
