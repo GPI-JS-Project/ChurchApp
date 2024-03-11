@@ -5,7 +5,23 @@
                 <!-- Header -->
                 <!-- <v-card class="mx-auto rounded-xl "> -->
                 <v-layout>
-                    <v-app-bar v-if="!$isMobile()" color="teal-darken-4 rounded-lg"
+                    <!-- mobile -->
+                    <v-app-bar class="rounded-lg" elevation="0" v-if="$isMobile()">
+
+                        <template v-slot:prepend>
+                            <router-link to="/" class="title-link">
+                                <v-app-bar-title><v-icon aria-hidden="false"> mdi-fire </v-icon>HIKANOS
+                                </v-app-bar-title>
+                            </router-link>
+                        </template>
+
+                        <v-spacer></v-spacer>
+                        <v-btn NuxtLink icon>
+                            <v-icon>mdi-magnify</v-icon>
+                        </v-btn>
+                    </v-app-bar>
+                    <!-- desktop -->
+                    <v-app-bar v-else class="rounded-lg" elevation="1" color="teal-darken-4"
                         image="https://picsum.photos/1920/1080?random">
                         <template v-slot:image>
                             <v-img gradient="to top right, rgba(19,84,122,.8), rgba(128,208,199,.8)"></v-img>
@@ -24,43 +40,17 @@
                         <v-btn NuxtLink to="/anniversary" prepend-icon="mdi-human-male-female" variant="text">
                             Anniversary
                         </v-btn>
-                        <v-btn NuxtLink to="/event" prepend-icon="mdi-calendar-clock" variant="text">
-                            Event
-                        </v-btn>
-                        <v-btn NuxtLink to="/news" prepend-icon="mdi-newspaper-variant-multiple" variant="text">
-                            News
-                        </v-btn>
-                        <v-btn NuxtLink icon>
-                            <v-icon>mdi-magnify</v-icon>
-                        </v-btn>
-
+                        <!-- <v-btn NuxtLink to="/event" prepend-icon="mdi-calendar-clock" variant="text"> Event </v-btn>
+                        <v-btn NuxtLink to="/news" prepend-icon="mdi-newspaper-variant-multiple" variant="text"> News </v-btn> -->
+                        <v-btn NuxtLink icon> <v-icon>mdi-magnify</v-icon> </v-btn>
                         <v-btn NuxtLink icon>
                             <v-icon>mdi-dots-vertical</v-icon>
                         </v-btn>
                     </v-app-bar>
-
-                    <v-app-bar class="rounded-lg" elevation="0" v-if="$isMobile()">
-
-                        <template v-slot:prepend>
-                            <router-link to="/" class="title-link">
-                                <v-app-bar-title><v-icon aria-hidden="false"> mdi-fire </v-icon>HIKANOS
-                                </v-app-bar-title>
-                            </router-link>
-                        </template>
-
-                        <v-spacer></v-spacer>
-                        <v-btn NuxtLink icon>
-                            <v-icon>mdi-magnify</v-icon>
-                        </v-btn>
-                    </v-app-bar>
                     <v-main>
                         <v-container class="custom-container">
-
                             <slot />
-
-
                         </v-container>
-
                     </v-main>
                 </v-layout>
                 <!-- end header  -->
@@ -70,16 +60,17 @@
         </v-main>
 
         <!-- Footer -->
-        <v-bottom-navigation bg-color="teal" v-if="$isMobile()" class="bottom-nav" v-model="value" active>
+        <v-bottom-navigation bg-color="teal-darken-2" v-if="$isMobile()" class="bottom-nav" v-model="value" active>
             <v-btn NuxtLink to="/birthday" size="x-large" prepend-icon="mdi-cake-variant" variant="text">
             </v-btn>
+
+            <v-btn NuxtLink to="/" size="x-large" prepend-icon="mdi-home" variant="text">
+            </v-btn>
+
             <v-btn NuxtLink to="/anniversary" size="x-large" prepend-icon="mdi-human-male-female" variant="text">
             </v-btn>
-            <v-btn NuxtLink to="/event" size="x-large" prepend-icon="mdi-calendar-clock" variant="text">
-            </v-btn>
-            <v-btn NuxtLink to="/news" size="x-large" prepend-icon="mdi-newspaper-variant-multiple" variant="text">
-
-            </v-btn>
+            <!-- <v-btn NuxtLink to="/event" size="x-large" prepend-icon="mdi-calendar-clock" variant="text"></v-btn>
+            <v-btn NuxtLink to="/news" size="x-large" prepend-icon="mdi-newspaper-variant-multiple" variant="text"> </v-btn> -->
         </v-bottom-navigation>
         <!-- Footer -->
     </v-app>

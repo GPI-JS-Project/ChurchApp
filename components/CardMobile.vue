@@ -8,7 +8,8 @@
                         <v-card-title class="title">
                             <v-row>
                                 <v-col cols="4">
-                                    <v-avatar size="80" v-show="isShowAvatar" image="../assets/pakeddy.jpg"></v-avatar>
+                                    <v-avatar :size="avatarSize" v-show="isShowAvatar"
+                                        image="/images/profilavatar.jpg"></v-avatar>
                                 </v-col>
                                 <v-col cols="8" class="text-wrap">
                                     {{ data['name'] }}
@@ -31,20 +32,23 @@
                                 <span class="subheading">0</span>
                             </div>
                         </v-card-actions>
+                        <v-divider></v-divider>
                     </v-col>
+
                 </v-row>
             </v-card>
         </v-hover>
     </div>
     <div v-else>
-        <v-card class="mx-auto" max-width="800" :disabled="disabled">
+        <v-card class="mx-auto" elevation="0" max-width="800" :disabled="disabled">
             <!-- Increased max-width for better visibility -->
             <v-row>
                 <v-col cols="12"> <!-- Adjust column width based on your design -->
                     <v-card-title class="title">
                         <v-row>
                             <v-col cols="4">
-                                <v-avatar size="80" v-show="isShowAvatar" image="../assets/pakeddy.jpg"></v-avatar>
+                                <v-avatar :size="avatarSize" v-show="isShowAvatar"
+                                    image="/images/profilavatar.jpg"></v-avatar>
                             </v-col>
                             <v-col cols="8" class="text-wrap">
 
@@ -72,6 +76,7 @@
                             <span class="subheading">0</span>
                         </div>
                     </v-card-actions>
+                    <v-divider></v-divider>
                 </v-col>
             </v-row>
         </v-card>
@@ -117,6 +122,10 @@ export default defineComponent({
         contentSize: {
             type: Number,
             default: 9
+        },
+        avatarSize: {
+            type: Number,
+            default: 80
         }
     },
     methods: {

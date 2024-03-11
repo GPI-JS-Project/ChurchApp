@@ -73,7 +73,8 @@ export default defineComponent({
                 husbandPhotoUrl: value.husbandPhotoUrl,
                 wifeID: value.wifeID,
                 wifePhotoUrl: value.wifePhotoUrl,
-                desc: value.desc
+                desc: value.desc,
+                name: value.desc
             }));
 
             tomorrowBirthday.value = valueTomorrow.map((value) => ({
@@ -85,7 +86,8 @@ export default defineComponent({
                 husbandPhotoUrl: value.husbandPhotoUrl,
                 wifeID: value.wifeID,
                 wifePhotoUrl: value.wifePhotoUrl,
-                desc: value.desc
+                desc: value.desc,
+                name: value.desc
             }));
 
             thisWeekBirthday.value = valueThisWeek.map((value) => ({
@@ -97,7 +99,8 @@ export default defineComponent({
                 husbandPhotoUrl: value.husbandPhotoUrl,
                 wifeID: value.wifeID,
                 wifePhotoUrl: value.wifePhotoUrl,
-                desc: value.desc
+                desc: value.desc,
+                name: value.desc
             }));
 
             thisMonthBirthday.value = valueThisMonth.map((value) => ({
@@ -109,7 +112,8 @@ export default defineComponent({
                 husbandPhotoUrl: value.husbandPhotoUrl,
                 wifeID: value.wifeID,
                 wifePhotoUrl: value.wifePhotoUrl,
-                desc: value.desc
+                desc: value.desc,
+                name: value.desc
             }));
 
             result.value = todayBirthday.value; // Default to today's birthday
@@ -133,7 +137,8 @@ export default defineComponent({
                     husbandPhotoUrl: value.husbandPhotoUrl,
                     wifeID: value.wifeID,
                     wifePhotoUrl: value.wifePhotoUrl,
-                    desc: value.desc
+                    desc: value.desc,
+                    name: value.desc
                 }));
 
                 tomorrowBirthday.value = valueTomorrow.map((value) => ({
@@ -145,7 +150,8 @@ export default defineComponent({
                     husbandPhotoUrl: value.husbandPhotoUrl,
                     wifeID: value.wifeID,
                     wifePhotoUrl: value.wifePhotoUrl,
-                    desc: value.desc
+                    desc: value.desc,
+                    name: value.desc
                 }));
 
                 thisWeekBirthday.value = valueThisWeek.map((value) => ({
@@ -157,7 +163,8 @@ export default defineComponent({
                     husbandPhotoUrl: value.husbandPhotoUrl,
                     wifeID: value.wifeID,
                     wifePhotoUrl: value.wifePhotoUrl,
-                    desc: value.desc
+                    desc: value.desc,
+                    name: value.desc
                 }));
 
                 thisMonthBirthday.value = valueThisMonth.map((value) => ({
@@ -169,7 +176,8 @@ export default defineComponent({
                     husbandPhotoUrl: value.husbandPhotoUrl,
                     wifeID: value.wifeID,
                     wifePhotoUrl: value.wifePhotoUrl,
-                    desc: value.desc
+                    desc: value.desc,
+                    name: value.desc
                 }));
 
                 result.value = todayBirthday.value; // Default to today's birthday
