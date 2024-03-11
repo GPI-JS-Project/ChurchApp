@@ -7,7 +7,7 @@
                 <v-row>
                     <v-col cols="12" :md="imageSize"> <!-- Adjust column width based on your design -->
                         <v-img class="align-end text-white rounded-lg"
-                            gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.2)" cover src="../assets/pakeddy.jpg">
+                            gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.2)" cover src="/images/profilavatar.jpg">
                             <!-- Leave image content here if needed -->
                         </v-img>
                     </v-col>
@@ -50,14 +50,14 @@
             <v-row>
                 <v-col cols="12" :md="imageSize"> <!-- Adjust column width based on your design -->
                     <v-img class="align-end text-white rounded-lg" gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.2)"
-                        cover src="../assets/pakeddy.jpg">
+                        cover src="/images/profilavatar.jpg">
                         <!-- Leave image content here if needed -->
                     </v-img>
                 </v-col>
                 <v-col cols="12" :md="contentSize"> <!-- Adjust column width based on your design -->
                     <v-card-title class="title">
                         <div class="text-wrap">
-                            <v-avatar v-show="isShowAvatar" image="../assets/pakeddy.jpg"></v-avatar>
+                            <v-avatar v-show="isShowAvatar" image="/images/profilavatar.jpg"></v-avatar>
                             {{ data['name'] }}
                         </div>
 
