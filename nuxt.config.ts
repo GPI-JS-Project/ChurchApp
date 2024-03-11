@@ -52,7 +52,9 @@ export default defineNuxtConfig({
       name: 'gpijsjaktim',
       short_name: 'gpijsjaktim',
       description: "GPI 'Jalan Suci' Jaktim",
-      theme_color:"#ffffff",
+      theme_color: '#ffffff',
+      background_color: '#ffffff',
+      display: 'standalone',
       icons: [
         {
           src: 'icons/icon512_rounded.png',
@@ -67,5 +69,14 @@ export default defineNuxtConfig({
       ],
     },
     
-  }
+  },
+  vite: {
+    build: {
+      rollupOptions: {
+        output: {
+          assetFileNames: '[name].[hash].[ext]'
+        }
+      }
+    }
+  },
 });
