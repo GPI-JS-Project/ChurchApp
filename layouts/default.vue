@@ -7,21 +7,19 @@
                 <v-layout>
                     <!-- mobile -->
                     <v-app-bar class="rounded-lg" elevation="0" v-if="$isMobile()">
-
                         <template v-slot:prepend>
                             <router-link to="/" class="title-link">
                                 <v-app-bar-title><v-icon aria-hidden="false"> mdi-fire </v-icon>HIKANOS
                                 </v-app-bar-title>
                             </router-link>
                         </template>
-
                         <v-spacer></v-spacer>
                         <v-btn NuxtLink icon>
                             <v-icon>mdi-magnify</v-icon>
                         </v-btn>
                     </v-app-bar>
                     <!-- desktop -->
-                    <v-app-bar v-else class="rounded-lg" elevation="1" color="teal-darken-4"
+                    <v-app-bar v-if="!$isMobile()" class="rounded-lg" elevation="1" color="teal-darken-4"
                         image="https://picsum.photos/1920/1080?random">
                         <template v-slot:image>
                             <v-img gradient="to top right, rgba(19,84,122,.8), rgba(128,208,199,.8)"></v-img>
