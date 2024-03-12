@@ -3,6 +3,9 @@ export default defineNuxtConfig({
   app:{
     head:{
       title:"HIKANOS - gpijsjaktim",
+      link: [
+        { rel: 'icon', type: 'image/png', href: '/icons/icon512_rounded.png' },
+      ],
       meta:[
         { charset:"utf-8"},
         { name:"viewport", content:'width=device-width, initial-scal=1'},
