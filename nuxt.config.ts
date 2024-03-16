@@ -46,7 +46,10 @@ export default defineNuxtConfig({
     devOptions: {
       enabled:true,
       type:"module"
-    }, 
+    },
+    workbox: {
+      navigateFallback:"/",
+    },
     manifest: {
       name: 'gpijsjaktim',
       short_name: 'gpijsjaktim',
