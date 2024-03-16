@@ -48,7 +48,7 @@ export default defineNuxtConfig({
       type:"module"
     },
     workbox: {
-      navigateFallback:"/",
+      // navigateFallback:"/",
     },
     manifest: {
       name: 'gpijsjaktim',
