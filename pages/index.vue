@@ -73,7 +73,7 @@ export default defineComponent({
         const resultAnniversary = ref<AnniversaryUser[]>([]);
         const dateNow = formatBirthdayToText(new Date().toString());
 
-        const { data: users, refresh } = useConfigFetch<BirthdayUser[]>("birthday", {
+        const { data: users } = useConfigFetch<BirthdayUser[]>("birthday", {
             lazy: true,
         });
 
@@ -94,8 +94,8 @@ export default defineComponent({
                 imageUrl: "",
             }));
             result.value = todayBirthday.value; // Default to today's birthday 
-            pending.value = false; // Set pending to false when data is loaded
         }
+
 
         if (Array.isArray(listAnniversary.value)) {
             const valueToday = listAnniversary.value.filter((data) => data.due === "Today");
@@ -112,14 +112,12 @@ export default defineComponent({
                 name: value.desc
             }));
             resultAnniversary.value = todayAnniversary.value; // Default to today'sanniversary
-            pending.value = false; // Set pending to false when data is loaded
         }
 
-        watch(users, (newValue) => {
-            if (Array.isArray(newValue)) {
-                const valueToday = newValue.filter((data) => data.due === "Today");
 
-                todayBirthday.value = valueToday.map((user) => ({
+        watch([users, listAnniversary], ([usersValue, anniversaryValue]) => {
+            if (Array.isArray(usersValue)) {
+                const todayBirthday = usersValue.filter(data => data.due === "Today").map(user => ({
                     churchID: user.churchID,
                     name: user.name,
                     email: user.email,
@@ -127,16 +125,11 @@ export default defineComponent({
                     due: user.due,
                     imageUrl: "",
                 }));
-                result.value = todayBirthday.value; // Default to today's birthday
+                result.value = todayBirthday; // Default to today's birthday
             }
-            pending.value = false; // Set pending to false when data is loaded
-        });
 
-        watch(listAnniversary, (newValue) => {
-
-            if (Array.isArray(newValue)) {
-                const valueToday = newValue.filter((data) => data.due === "Today");
-                todayAnniversary.value = valueToday.map((value) => ({
+            if (Array.isArray(anniversaryValue)) {
+                const todayAnniversary = anniversaryValue.filter(data => data.due === "Today").map(value => ({
                     date: formatBirthdayToText(value.date.toString()),
                     due: value.due,
                     husband: value.husband,
@@ -148,11 +141,10 @@ export default defineComponent({
                     desc: value.desc,
                     name: value.desc
                 }));
-                resultAnniversary.value = todayAnniversary.value; // Default to today'sanniversary
+                resultAnniversary.value = todayAnniversary; // Default to today's anniversary
             }
-
-            pending.value = false; // Set pending to false when data is loaded
         });
+
 
 
         return {
