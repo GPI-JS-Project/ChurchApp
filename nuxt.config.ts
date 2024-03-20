@@ -1,4 +1,3 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   app:{
     head:{
@@ -12,7 +11,7 @@ export default defineNuxtConfig({
         { hid:"description",name:"description", content:"gpijsjaktim"}
       ]
     }
-  },
+  }, 
   modules: [
     'vuetify-nuxt-module',
     '@nuxtjs/device',
@@ -42,8 +41,23 @@ export default defineNuxtConfig({
       baseURL: process.env.BASE_URL || 'https://services-jaktim.gpijalansuci.org/api/v1/',
     },
   },
-  pwa: {
-   
+  pwa: { 
+      workbox: {
+        runtimeCaching: [
+            {
+              urlPattern: /^https:\/\/jaktim\.gpijalansuci\.org\/api\//,
+              handler: 'NetworkOnly',
+              options: {
+                cacheName: 'api-cache',
+                cacheableResponse: { statuses: [0, 200] }
+              }
+            }
+        ]
+      },
+    devOptions: {
+      enabled:true,
+      type:"module"
+    }, 
     manifest: {
       name: 'gpijsjaktim',
       short_name: 'gpijsjaktim',

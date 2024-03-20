@@ -73,11 +73,11 @@ export default defineComponent({
         const resultAnniversary = ref<AnniversaryUser[]>([]);
         const dateNow = formatBirthdayToText(new Date().toString());
 
-        const { data: users } = useConfigFetch<BirthdayUser[]>("birthday", {
+        const { data: users } = useConfigFetch<BirthdayUser[]>("birthday/", {
             lazy: true,
         });
 
-        const { data: listAnniversary } = useConfigFetch<AnniversaryUser[]>("anniversary", {
+        const { data: listAnniversary } = useConfigFetch<AnniversaryUser[]>("anniversary/", {
             lazy: true,
         });
 
