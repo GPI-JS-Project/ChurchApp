@@ -64,7 +64,7 @@ export default defineComponent({
             { active: false, label: "ThisMonth", text: "This Month", icon: "mdi-calendar-month-outline" },
         ]);
 
-        const { data: users, refresh } = useConfigFetch<BirthdayUser[]>("birthday", {
+        const { data: users, refresh } = useConfigFetch<BirthdayUser[]>("birthday/", {
             lazy: true,
         });
         if (Array.isArray(users.value)) {
