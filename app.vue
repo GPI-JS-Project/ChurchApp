@@ -10,6 +10,8 @@ import { onMounted } from 'vue';
 import { initializeApp } from 'firebase/app';
 import { getMessaging, getToken, onMessage } from 'firebase/messaging';
 import { useConfigFetch, useConfigPost } from "@/composables/useConfigFetch"; // Assuming this is the correct path to your composable
+import type { BirthdayUser } from './interfaces/BirthdayUser';
+import type { AnniversaryUser } from './interfaces/AnniversaryUser';
 
 const firebaseConfig = {
   // Your Firebase config
@@ -38,6 +40,13 @@ interface getLocation {
 
 onMounted(() => {
 
+  const { data: users } = useConfigFetch<BirthdayUser[]>("birthday", {
+    lazy: true,
+  });
+
+  const { data: listAnniversary } = useConfigFetch<AnniversaryUser[]>("anniversary", {
+    lazy: true,
+  });
 
   const app = initializeApp(firebaseConfig);
   const messaging = getMessaging(app);
@@ -89,6 +98,8 @@ onMounted(() => {
 
   // Clean up subscriptions when component is unmounted
   return () => {
+    users;
+    listAnniversary;
     unsubscribe();
   };
 });
