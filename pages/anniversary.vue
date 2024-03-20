@@ -55,7 +55,7 @@ export default defineComponent({
         ]);
 
 
-        const { data: users, refresh } = useConfigFetch<AnniversaryUser[]>("anniversary", {
+        const { data: users, refresh } = useConfigFetch<AnniversaryUser[]>("anniversary/", {
             lazy: true,
         });
         if (Array.isArray(users.value)) {
