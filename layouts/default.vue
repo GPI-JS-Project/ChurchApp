@@ -59,14 +59,15 @@
 
         <!-- Footer -->
         <v-bottom-navigation bg-color="teal-darken-2" v-if="$isMobile()" class="bottom-nav" v-model="value" active>
+            <v-btn NuxtLink to="/anniversary" size="x-large" prepend-icon="mdi-human-male-female" variant="text">
+            </v-btn>
             <v-btn NuxtLink to="/birthday" size="x-large" prepend-icon="mdi-cake-variant" variant="text">
             </v-btn>
 
             <v-btn NuxtLink to="/" size="x-large" prepend-icon="mdi-home" variant="text">
             </v-btn>
 
-            <v-btn NuxtLink to="/anniversary" size="x-large" prepend-icon="mdi-human-male-female" variant="text">
-            </v-btn>
+
             <!-- <v-btn NuxtLink to="/event" size="x-large" prepend-icon="mdi-calendar-clock" variant="text"></v-btn>
             <v-btn NuxtLink to="/news" size="x-large" prepend-icon="mdi-newspaper-variant-multiple" variant="text"> </v-btn> -->
         </v-bottom-navigation>
