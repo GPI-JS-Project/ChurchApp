@@ -40,44 +40,5 @@ export default defineNuxtConfig({
     public: {
       baseURL: process.env.BASE_URL || 'https://services-jaktim.gpijalansuci.org/api/v1/',
     },
-  },
-  pwa: { 
-      workbox: {
-        runtimeCaching: [
-            {
-              urlPattern: /^https:\/\/jaktim\.gpijalansuci\.org\/api\//,
-              handler: 'NetworkOnly',
-              options: {
-                cacheName: 'api-cache',
-                cacheableResponse: { statuses: [0, 200] }
-              }
-            }
-        ]
-      },
-    devOptions: {
-      enabled:true,
-      type:"module"
-    }, 
-    manifest: {
-      name: 'gpijsjaktim',
-      short_name: 'gpijsjaktim',
-      description: "GPI 'Jalan Suci' Jaktim",
-      theme_color: '#ffffff',
-      background_color: '#ffffff',
-      display: 'standalone',
-      icons: [
-        {
-          src: 'icons/icon512_rounded.png',
-          sizes: '192x192',
-          type: 'image/png',
-        },
-        {
-          src: 'icons/icon512_rounded.png',
-          sizes: '512x512',
-          type: 'image/png',
-        },
-      ],
-    },
-    
-  },
+  }
 });
