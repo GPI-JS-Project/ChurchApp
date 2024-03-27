@@ -15,8 +15,7 @@ export default defineNuxtConfig({
   modules: [
     'vuetify-nuxt-module',
     '@nuxtjs/device',
-    'dayjs-nuxt',
-    '@vite-pwa/nuxt'
+    'dayjs-nuxt'
   ],
   plugins: [
     './plugins/device.js'
@@ -35,7 +34,7 @@ export default defineNuxtConfig({
       /* vuetify options */
     }
   },
-  devtools: { enabled: true }, 
+  devtools: { enabled: false }, 
   runtimeConfig: {
     public: {
       baseURL: process.env.BASE_URL || 'https://services-jaktim.gpijalansuci.org/api/v1/',
