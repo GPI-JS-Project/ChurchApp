@@ -5,7 +5,7 @@ on:
   push:
     branches:
       - main
-  # Allow you to run this workflow manually from the actions tab
+  # Allow you to run this workflow manually from the actions tabs
   workflow_dispatch:
 
 jobs:
