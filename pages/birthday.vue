@@ -40,6 +40,7 @@
 import { ref, watch, onMounted } from "vue";
 import { useConfigFetch } from "@/composables/useConfigFetch"; // Assuming this is the correct path to your composable
 import type { BirthdayUser } from "@/interfaces/BirthdayUser";
+import type { FilterButton } from "@/interfaces/FilterButton";
 import { formatBirthdayToText } from '@/helper/formatHelper'; // Import the helper function
 import Dialog from '@/components/Dialog.vue';
 
@@ -65,7 +66,15 @@ export default defineComponent({
         ]);
 
         const { data: users, refresh } = useConfigFetch<BirthdayUser[]>("birthday/", {
+            method: 'GET',
             lazy: true,
+            headers: {
+                'Cache-Control': 'no-cache',
+            },
+            // Jika perlu mengirimkan params
+            params: {
+                _: new Date().getTime(), // Cache-busting query param
+            },
         });
         if (Array.isArray(users.value)) {
             const valueToday = users.value.filter((data) => data.due === "Today");

@@ -37,6 +37,7 @@ import { ref, watch, onMounted } from "vue";
 import { useConfigFetch } from "@/composables/useConfigFetch"; // Assuming this is the correct path to your composable
 import type { AnniversaryUser } from "@/interfaces/AnniversaryUser";
 import { formatBirthdayToText } from '@/helper/formatHelper'; // Import the helper function
+import type { FilterButton } from "@/interfaces/FilterButton";
 
 export default defineComponent({
     setup() {
@@ -56,7 +57,15 @@ export default defineComponent({
 
 
         const { data: users, refresh } = useConfigFetch<AnniversaryUser[]>("anniversary/", {
+            method: 'GET',
             lazy: true,
+            headers: {
+                'Cache-Control': 'no-cache',
+            },
+            // Jika perlu mengirimkan params
+            params: {
+                _: new Date().getTime(), // Cache-busting query param
+            },
         });
         if (Array.isArray(users.value)) {
             const valueToday = users.value.filter((data) => data.due === "Today");

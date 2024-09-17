@@ -7,7 +7,7 @@ export default defineNuxtConfig({
       ],
       meta:[
         { charset:"utf-8"},
-        { name:"viewport", content:'width=device-width, initial-scal=1'},
+        { name:"viewport", content:'width=device-width, initial-scale=1'},
         { hid:"description",name:"description", content:"gpijsjaktim"}
       ]
     }
@@ -39,5 +39,13 @@ export default defineNuxtConfig({
     public: {
       baseURL: process.env.BASE_URL || 'https://services-jaktim.gpijalansuci.org/api/v1/',
     },
+  },
+  vite: {
+    server: {
+      fs: {
+        allow: ['C:/NOVAL/GPIJSJAKTIM_IT_MINISTRY/Project/TheChurchUI/ChurchApp/']
+      }
+    }
   }
+
 });

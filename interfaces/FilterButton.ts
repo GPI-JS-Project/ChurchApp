@@ -1,4 +1,4 @@
-interface FilterButton {
+export interface FilterButton {
     active: boolean;
     label: string;
     text: string;
