@@ -58,7 +58,6 @@ export default defineComponent({
 
         const { data: users, refresh } = useConfigFetch<AnniversaryUser[]>("anniversary/", {
             method: 'GET',
-            lazy: true,
             headers: {
                 'Cache-Control': 'no-cache',
             },

@@ -74,7 +74,6 @@ export default defineComponent({
         const dateNow = formatBirthdayToText(new Date().toString());
 
         const { data: users } = useConfigFetch<BirthdayUser[]>("birthday/", {
-            lazy: true,
             headers: {
                 'Cache-Control': 'no-cache',
             },
@@ -85,7 +84,6 @@ export default defineComponent({
         });
 
         const { data: listAnniversary } = useConfigFetch<AnniversaryUser[]>("anniversary/", {
-            lazy: true,
             headers: {
                 'Cache-Control': 'no-cache',
             },

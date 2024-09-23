@@ -40,13 +40,9 @@ interface getLocation {
 
 onMounted(() => {
 
-  const { data: users } = useConfigFetch<BirthdayUser[]>("birthday", {
-    lazy: true,
-  });
+  const { data: users } = useConfigFetch<BirthdayUser[]>("birthday");
 
-  const { data: listAnniversary } = useConfigFetch<AnniversaryUser[]>("anniversary", {
-    lazy: true,
-  });
+  const { data: listAnniversary } = useConfigFetch<AnniversaryUser[]>("anniversary");
 
   const app = initializeApp(firebaseConfig);
   const messaging = getMessaging(app);
@@ -57,8 +53,7 @@ onMounted(() => {
 
   getToken(messaging, { vapidKey: 'BGsBEcW8C6lsHuMOQJKH2RSnEFvOD5-GFTHnKbAGl_3bOS1dCXX5IXr0zs5eyPBTEKOzyPPincOB5g9F-v6UU90' })
     .then(async (currentToken) => {
-      if (currentToken) {
-        console.log('Token:', currentToken);
+      if (currentToken) { 
 
         const { data: ipAddress } = await useFetch('https://api.ipify.org?format=json');
         const getIPAddress = ipAddress.value as getIP;
@@ -79,11 +74,11 @@ onMounted(() => {
         useConfigPost('/notification', postData)
           .then(response => {
             // Handle successful response
-            console.log(response.data.value);
+          
           })
           .catch(error => {
             // Handle error
-            console.error('Error:', error);
+          
           });
 
 

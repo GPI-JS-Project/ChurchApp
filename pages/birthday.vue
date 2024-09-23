@@ -43,6 +43,8 @@ import type { BirthdayUser } from "@/interfaces/BirthdayUser";
 import type { FilterButton } from "@/interfaces/FilterButton";
 import { formatBirthdayToText } from '@/helper/formatHelper'; // Import the helper function
 import Dialog from '@/components/Dialog.vue';
+import { birthdateStorage } from '@/stores/birthday'; // Sesuaikan path jika diperlukan
+
 
 
 export default defineComponent({
@@ -50,10 +52,12 @@ export default defineComponent({
         Dialog,
     },
     setup() {
+        const birthdayStore = birthdateStorage();
         const pending = ref(true); // Define pending outside setup and initialize with ref
         const result = ref<BirthdayUser[]>([]);
         const isActive = ref(true);
         const showCommentDialog = ref<boolean>(false);
+        const users = ref<BirthdayUser[]>([]);
         const todayBirthday = ref<BirthdayUser[]>([]);
         const tomorrowBirthday = ref<BirthdayUser[]>([]);
         const thisWeekBirthday = ref<BirthdayUser[]>([]);
@@ -65,111 +69,58 @@ export default defineComponent({
             { active: false, label: "ThisMonth", text: "This Month", icon: "mdi-calendar-month-outline" },
         ]);
 
-        const { data: users, refresh } = useConfigFetch<BirthdayUser[]>("birthday/", {
-            method: 'GET',
-            lazy: true,
-            headers: {
-                'Cache-Control': 'no-cache',
-            },
-            // Jika perlu mengirimkan params
-            params: {
-                _: new Date().getTime(), // Cache-busting query param
-            },
-        });
-        if (Array.isArray(users.value)) {
-            const valueToday = users.value.filter((data) => data.due === "Today");
-            const valueTomorrow = users.value.filter((datas) => datas.due === "Tomorrow");
-            const valueThisWeek = users.value.filter((datas) => datas.due === "ThisWeek");
-            const valueThisMonth = users.value.filter((datas) => datas.due === "ThisMonth");
+        // Load from store if available
+        if (birthdayStore.getData.length > 0) {
 
-            todayBirthday.value = valueToday.map((user) => ({
-                churchID: user.churchID,
-                name: user.name,
-                email: user.email,
-                date: formatBirthdayToText(user.date.toString()),
-                due: user.due,
-                imageUrl: "",
-            }));
+            todayBirthday.value = birthdayStore.today;
+            tomorrowBirthday.value = birthdayStore.tomorrow;
+            thisWeekBirthday.value = birthdayStore.thisWeek;
+            thisMonthBirthday.value = birthdayStore.thisMonth;
 
-            tomorrowBirthday.value = valueTomorrow.map((users) => ({
-                churchID: users.churchID,
-                name: users.name,
-                email: users.email,
-                date: formatBirthdayToText(users.date.toString()),
-                due: users.due,
-                imageUrl: "",
-            }));
-
-            thisWeekBirthday.value = valueThisWeek.map((users) => ({
-                churchID: users.churchID,
-                name: users.name,
-                email: users.email,
-                date: formatBirthdayToText(users.date.toString()),
-                due: users.due,
-                imageUrl: "",
-            }));
-
-            thisMonthBirthday.value = valueThisMonth.map((users) => ({
-                churchID: users.churchID,
-                name: users.name,
-                email: users.email,
-                date: formatBirthdayToText(users.date.toString()),
-                due: users.due,
-                imageUrl: "",
-            }));
-
-            result.value = todayBirthday.value; // Default to today's birthday
+            result.value = birthdayStore.today;
             pending.value = false;
-        }
 
 
-        watch(users, (newValue) => {
-            if (Array.isArray(newValue)) {
-                const valueToday = newValue.filter((data) => data.due === "Today");
-                const valueTomorrow = newValue.filter((datas) => datas.due === "Tomorrow");
-                const valueThisWeek = newValue.filter((datas) => datas.due === "ThisWeek");
-                const valueThisMonth = newValue.filter((datas) => datas.due === "ThisMonth");
+        } else {
+            // Fetch from API if no store data
+            try {
+                const { data: users, refresh } = useConfigFetch<BirthdayUser[]>("birthday/", {
+                    method: 'GET',
+                    headers: {
+                        'Cache-Control': 'no-cache',
+                    }
+                });
 
-                todayBirthday.value = valueToday.map((user) => ({
-                    churchID: user.churchID,
-                    name: user.name,
-                    email: user.email,
-                    date: formatBirthdayToText(user.date.toString()),
-                    due: user.due,
-                    imageUrl: "",
-                }));
+                if (Array.isArray(users.value)) {
 
-                tomorrowBirthday.value = valueTomorrow.map((users) => ({
-                    churchID: users.churchID,
-                    name: users.name,
-                    email: users.email,
-                    date: formatBirthdayToText(users.date.toString()),
-                    due: users.due,
-                    imageUrl: "",
-                }));
+                    var mapData = users.value.map((value) => ({
+                        churchID: value.churchID,
+                        name: value.name,
+                        email: value.email,
+                        date: formatBirthdayToText(value.date.toString()),
+                        due: value.due,
+                        imageUrl: "",
+                    }));
 
-                thisWeekBirthday.value = valueThisWeek.map((users) => ({
-                    churchID: users.churchID,
-                    name: users.name,
-                    email: users.email,
-                    date: formatBirthdayToText(users.date.toString()),
-                    due: users.due,
-                    imageUrl: "",
-                }));
+                    const today = mapData.filter((user) => user.due === "Today");
+                    const tomorrow = mapData.filter((user) => user.due === "Tomorrow");
+                    const thisWeek = mapData.filter((user) => user.due === "ThisWeek");
+                    const thisMonth = mapData.filter((user) => user.due === "ThisMonth");
 
-                thisMonthBirthday.value = valueThisMonth.map((users) => ({
-                    churchID: users.churchID,
-                    name: users.name,
-                    email: users.email,
-                    date: formatBirthdayToText(users.date.toString()),
-                    due: users.due,
-                    imageUrl: "",
-                }));
+                    todayBirthday.value = today;
+                    tomorrowBirthday.value = tomorrow;
+                    thisWeekBirthday.value = thisWeek;
+                    thisMonthBirthday.value = thisMonth;
 
-                result.value = todayBirthday.value; // Default to today's birthday
+                    birthdayStore.setBirthday(today, tomorrow, thisWeek, thisMonth);
+                    result.value = today; // Default to today's birthday
+                }
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            } finally {
+                pending.value = false;
             }
-            pending.value = false; // Set pending to false when data is loaded
-        });
+        }
         const handleToggleChip = ({
             isActive,
             currentLabel,
@@ -197,10 +148,9 @@ export default defineComponent({
             buttons.value = newButtons;
         };
 
-        const handleActionButton = ({ churchID }: { churchID: string }) => {
 
+        const handleActionButton = () => {
             showCommentDialog.value = true;
-            console.log(showCommentDialog);
         };
 
         return {
@@ -223,4 +173,4 @@ export default defineComponent({
     border-radius: 10px;
     /* Adjust the radius value as needed */
 }
-</style>
+</style>~/stores/birthday

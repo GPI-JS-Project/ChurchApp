@@ -1,12 +1,12 @@
-export const useConfigFetch: typeof useFetch = (request, opts?) => {
+export const useConfigFetch: typeof useLazyFetch = (request, opts?) => {
 const config = useRuntimeConfig();
 
-  return useFetch(request, { baseURL: config.public.baseURL, ...opts })
+  return useLazyFetch(request, { baseURL: config.public.baseURL, ...opts })
 }
 
 export const useConfigPost = (request: string, data: any, opts?: any) => {
   const config = useRuntimeConfig();
-  return useFetch(request, {
+  return useLazyFetch(request, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
