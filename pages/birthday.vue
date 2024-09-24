@@ -69,6 +69,16 @@ export default defineComponent({
             { active: false, label: "ThisMonth", text: "This Month", icon: "mdi-calendar-month-outline" },
         ]);
 
+        // Check if data is expired and reset if necessary
+        const checkExpiry = () => {
+            const now = new Date();
+            if (now > new Date(birthdayStore.expiredAt)) {
+                birthdayStore.clearBirthday(); // Reset data if expired
+            }
+        };
+
+        // Load from store if available
+        checkExpiry(); // Check for expiration before loading data
         // Load from store if available
         if (birthdayStore.getData.length > 0) {
 
@@ -111,8 +121,9 @@ export default defineComponent({
                     tomorrowBirthday.value = tomorrow;
                     thisWeekBirthday.value = thisWeek;
                     thisMonthBirthday.value = thisMonth;
+                    const expiredAt = new Date(); // Set expiredAt to now or appropriate date
 
-                    birthdayStore.setBirthday(today, tomorrow, thisWeek, thisMonth);
+                    birthdayStore.setBirthday(today, tomorrow, thisWeek, thisMonth, expiredAt);
                     result.value = today; // Default to today's birthday
                 }
             } catch (error) {
