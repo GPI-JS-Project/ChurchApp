@@ -52,7 +52,7 @@ export default defineComponent({
         Dialog,
     },
     setup() {
-        const birthdayStore = birthdateStorage();
+        // const birthdayStore = birthdateStorage();
         const pending = ref(true); // Define pending outside setup and initialize with ref
         const result = ref<BirthdayUser[]>([]);
         const isActive = ref(true);
@@ -69,69 +69,69 @@ export default defineComponent({
             { active: false, label: "ThisMonth", text: "This Month", icon: "mdi-calendar-month-outline" },
         ]);
 
-        // Check if data is expired and reset if necessary
-        const checkExpiry = () => {
-            const now = new Date();
-            if (now > new Date(birthdayStore.expiredAt)) {
-                birthdayStore.clearBirthday(); // Reset data if expired
-            }
-        };
+        // // Check if data is expired and reset if necessary
+        // const checkExpiry = () => {
+        //     const now = new Date();
+        //     if (now > new Date(birthdayStore.expiredAt)) {
+        //         birthdayStore.clearBirthday(); // Reset data if expired
+        //     }
+        // };
 
-        // Load from store if available
-        checkExpiry(); // Check for expiration before loading data
-        // Load from store if available
-        if (birthdayStore.getData.length > 0) {
+        // // Load from store if available
+        // checkExpiry(); // Check for expiration before loading data
+        // // Load from store if available
+        // if (birthdayStore.getData.length > 0) {
 
-            todayBirthday.value = birthdayStore.today;
-            tomorrowBirthday.value = birthdayStore.tomorrow;
-            thisWeekBirthday.value = birthdayStore.thisWeek;
-            thisMonthBirthday.value = birthdayStore.thisMonth;
+        //     todayBirthday.value = birthdayStore.today;
+        //     tomorrowBirthday.value = birthdayStore.tomorrow;
+        //     thisWeekBirthday.value = birthdayStore.thisWeek;
+        //     thisMonthBirthday.value = birthdayStore.thisMonth;
 
-            result.value = birthdayStore.today;
-            pending.value = false;
+        //     result.value = birthdayStore.today;
+        //     pending.value = false;
 
 
-        } else {
-            // Fetch from API if no store data
-            try {
-                const { data: users, refresh } = useConfigFetch<BirthdayUser[]>("birthday/", {
-                    method: 'GET',
-                    headers: {
-                        'Cache-Control': 'no-cache',
-                    }
-                });
-
-                if (Array.isArray(users.value)) {
-
-                    var mapData = users.value.map((value) => ({
-                        churchID: value.churchID,
-                        name: value.name,
-                        email: value.email,
-                        date: formatBirthdayToText(value.date.toString()),
-                        due: value.due,
-                        imageUrl: "",
-                    }));
-
-                    const today = mapData.filter((user) => user.due === "Today");
-                    const tomorrow = mapData.filter((user) => user.due === "Tomorrow");
-                    const thisWeek = mapData.filter((user) => user.due === "ThisWeek");
-                    const thisMonth = mapData.filter((user) => user.due === "ThisMonth");
-
-                    todayBirthday.value = today;
-                    tomorrowBirthday.value = tomorrow;
-                    thisWeekBirthday.value = thisWeek;
-                    thisMonthBirthday.value = thisMonth;
-                    const expiredAt = new Date(); // Set expiredAt to now or appropriate date
-
-                    birthdayStore.setBirthday(today, tomorrow, thisWeek, thisMonth, expiredAt);
-                    result.value = today; // Default to today's birthday
+        // } else {
+        // Fetch from API if no store data
+        try {
+            const { data: users, refresh } = useConfigFetch<BirthdayUser[]>("birthday/", {
+                method: 'GET',
+                headers: {
+                    'Cache-Control': 'no-cache',
                 }
-            } catch (error) {
-                console.error("Error fetching data:", error);
-            } finally {
-                pending.value = false;
+            });
+
+            if (Array.isArray(users.value)) {
+
+                var mapData = users.value.map((value) => ({
+                    churchID: value.churchID,
+                    name: value.name,
+                    email: value.email,
+                    date: formatBirthdayToText(value.date.toString()),
+                    due: value.due,
+                    imageUrl: "",
+                }));
+
+                const today = mapData.filter((user) => user.due === "Today");
+                const tomorrow = mapData.filter((user) => user.due === "Tomorrow");
+                const thisWeek = mapData.filter((user) => user.due === "ThisWeek");
+                const thisMonth = mapData.filter((user) => user.due === "ThisMonth");
+
+                todayBirthday.value = today;
+                tomorrowBirthday.value = tomorrow;
+                thisWeekBirthday.value = thisWeek;
+                thisMonthBirthday.value = thisMonth;
+                // const expiredAt = new Date(); // Set expiredAt to now or appropriate date
+
+                // birthdayStore.setBirthday(today, tomorrow, thisWeek, thisMonth, expiredAt);
+                result.value = today; // Default to today's birthday
             }
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        } finally {
+            pending.value = false;
         }
+        // }
         const handleToggleChip = ({
             isActive,
             currentLabel,
