@@ -36,7 +36,7 @@ jobs:
       - name: Sync files to hosting
         uses: SamKirkland/FTP-Deploy-Action@4.3.2
         with:
-          server: jaktim.gpijalansuci.org:2073
+          server: jaktim.gpijalansuci.org
           username: jaktim@gpijalansuci.org
           password: gpijaktim@2024
           local-dir: .output/public/
@@ -47,5 +47,5 @@ jobs:
             public
             src
             /dist
-          passive: false         # Enable passive mode
-          timeout: 60000        # Set timeout to 60 seconds
+          passive: true         # Enable passive mode
+          timeout: 6000000        # Set timeout to 60 seconds
