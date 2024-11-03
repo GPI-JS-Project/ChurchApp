@@ -47,3 +47,5 @@ jobs:
             public
             src
             /dist
+          passive: true         # Enable passive mode
+          timeout: 60000        # Set timeout to 60 seconds
