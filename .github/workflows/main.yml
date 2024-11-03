@@ -36,7 +36,7 @@ jobs:
       - name: Sync files to hosting
         uses: SamKirkland/FTP-Deploy-Action@4.3.2
         with:
-          server: jaktim.gpijalansuci.org
+          server: jaktim.gpijalansuci.org:21
           username: jaktim@gpijalansuci.org
           password: gpijaktim@2024
           local-dir: .output/public/
