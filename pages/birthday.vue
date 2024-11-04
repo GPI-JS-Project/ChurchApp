@@ -122,7 +122,6 @@ export default defineComponent({
                 thisWeekBirthday.value = thisWeek;
                 thisMonthBirthday.value = thisMonth;
                 // const expiredAt = new Date(); // Set expiredAt to now or appropriate date
-
                 // birthdayStore.setBirthday(today, tomorrow, thisWeek, thisMonth, expiredAt);
                 result.value = today; // Default to today's birthday
             }
