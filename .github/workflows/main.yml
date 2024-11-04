@@ -34,7 +34,7 @@ jobs:
           npm run build
 
       - name: Sync files to hosting
-        uses: SamKirkland/FTP-Deploy-Action@4.3.2^
+        uses: appleboy/ftp-action@v0.3.5
         with:
           server: jaktim.gpijalansuci.org
           username: jaktim@gpijalansuci.org
