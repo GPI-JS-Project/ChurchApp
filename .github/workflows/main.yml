@@ -34,7 +34,7 @@ jobs:
           npm run build
 
       - name: Sync files to hosting
-        uses: SamKirkland/FTP-Deploy-Action@4.3.2
+        uses: SamKirkland/FTP-Deploy-Action@4.4.0
         with:
           server: jaktim.gpijalansuci.org
           username: jaktim@gpijalansuci.org
@@ -47,3 +47,4 @@ jobs:
             public
             src
             /dist
+          timeout: 136000000        # Set timeout to 60 seconds
