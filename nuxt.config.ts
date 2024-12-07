@@ -14,11 +14,11 @@ export default defineNuxtConfig({
   },
 
   modules: [
-    '@vite-pwa/nuxt', // Modul PWA
+    // '@vite-pwa/nuxt', // Modul PWA
     'vuetify-nuxt-module',
     '@nuxtjs/device',
     'dayjs-nuxt',
-    '@pinia/nuxt',
+    // '@pinia/nuxt',
   ],
 
   plugins: [
