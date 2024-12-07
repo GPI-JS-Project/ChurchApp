@@ -61,9 +61,9 @@ export default defineNuxtConfig({
  pwa: {
     registerType: 'autoUpdate', // Mengatur tipe pendaftaran
     manifest: {
-      name: 'Nama Aplikasi',
-      short_name: 'Aplikasi',
-      description: 'Deskripsi aplikasi kamu',
+      name: 'GPI JS Jamtim',
+      short_name: 'GPIJSJAKTIMM',
+      description: 'GPi Jalan Suci Jaktim',
       theme_color: '#ffffff',
       icons: [
         {
@@ -89,4 +89,5 @@ export default defineNuxtConfig({
       ],
     },
   },
+  generate:{}
 });

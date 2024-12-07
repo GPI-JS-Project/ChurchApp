@@ -4,9 +4,9 @@ const config = useRuntimeConfig();
   return useLazyFetch(request, { baseURL: config.public.baseURL, ...opts })
 }
 
-export const useConfigPost = (request: string, data: any, opts?: any) => {
+export const useConfigPost = <T>(request: string, data: any, opts?: any) => {
   const config = useRuntimeConfig();
-  return useLazyFetch(request, {
+  return useLazyFetch<T>(request, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
