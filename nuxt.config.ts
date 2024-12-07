@@ -1,7 +1,7 @@
 export default defineNuxtConfig({
   generate: {
-    // routes: ['/', '/birthday', '/event'], // List of routes to prerender
-    exclude: ['/','/birthday','/event'] // List of routes to exclude from prerendering
+    routes: ['/', '/birthday', '/event'], // List of routes to prerender
+    exclude: ['/dynamic-route'] 
   },
   app: {
     head: {
