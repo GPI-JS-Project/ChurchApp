@@ -60,11 +60,7 @@ export default defineComponent({
             method: 'GET',
             headers: {
                 'Cache-Control': 'no-cache',
-            },
-            // Jika perlu mengirimkan params
-            params: {
-                _: new Date().getTime(), // Cache-busting query param
-            },
+            }
         });
         if (Array.isArray(users.value)) {
             const valueToday = users.value.filter((data) => data.due === "Today");

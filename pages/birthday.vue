@@ -69,30 +69,7 @@ export default defineComponent({
             { active: false, label: "ThisMonth", text: "This Month", icon: "mdi-calendar-month-outline" },
         ]);
 
-        // // Check if data is expired and reset if necessary
-        // const checkExpiry = () => {
-        //     const now = new Date();
-        //     if (now > new Date(birthdayStore.expiredAt)) {
-        //         birthdayStore.clearBirthday(); // Reset data if expired
-        //     }
-        // };
 
-        // // Load from store if available
-        // checkExpiry(); // Check for expiration before loading data
-        // // Load from store if available
-        // if (birthdayStore.getData.length > 0) {
-
-        //     todayBirthday.value = birthdayStore.today;
-        //     tomorrowBirthday.value = birthdayStore.tomorrow;
-        //     thisWeekBirthday.value = birthdayStore.thisWeek;
-        //     thisMonthBirthday.value = birthdayStore.thisMonth;
-
-        //     result.value = birthdayStore.today;
-        //     pending.value = false;
-
-
-        // } else {
-        // Fetch from API if no store data
         try {
             const { data: users, refresh } = useConfigFetch<BirthdayUser[]>("birthday/", {
                 method: 'GET',
@@ -121,8 +98,7 @@ export default defineComponent({
                 tomorrowBirthday.value = tomorrow;
                 thisWeekBirthday.value = thisWeek;
                 thisMonthBirthday.value = thisMonth;
-                // const expiredAt = new Date(); // Set expiredAt to now or appropriate date
-                // birthdayStore.setBirthday(today, tomorrow, thisWeek, thisMonth, expiredAt);
+
                 result.value = today; // Default to today's birthday
             }
         } catch (error) {
@@ -130,7 +106,6 @@ export default defineComponent({
         } finally {
             pending.value = false;
         }
-        // }
         const handleToggleChip = ({
             isActive,
             currentLabel,
@@ -183,4 +158,4 @@ export default defineComponent({
     border-radius: 10px;
     /* Adjust the radius value as needed */
 }
-</style>~/stores/birthday
+</style>

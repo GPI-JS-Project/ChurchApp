@@ -76,21 +76,13 @@ export default defineComponent({
         const { data: users } = useConfigFetch<BirthdayUser[]>("birthday/", {
             headers: {
                 'Cache-Control': 'no-cache',
-            },
-            // Jika perlu mengirimkan params
-            params: {
-                _: new Date().getTime(), // Cache-busting query param
-            },
+            }
         });
 
         const { data: listAnniversary } = useConfigFetch<AnniversaryUser[]>("anniversary/", {
             headers: {
                 'Cache-Control': 'no-cache',
-            },
-            // Jika perlu mengirimkan params
-            params: {
-                _: new Date().getTime(), // Cache-busting query param
-            },
+            }
         });
 
 
