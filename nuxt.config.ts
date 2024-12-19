@@ -1,4 +1,5 @@
 export default defineNuxtConfig({
+  ssr:true,
   generate: {
     routes: ['/', '/birthday', '/event'], // List of routes to prerender
    },

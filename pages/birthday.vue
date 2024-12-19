@@ -37,27 +37,22 @@
 </template>
 
 <script lang="ts">
-import { ref, watch, onMounted } from "vue";
-import { useConfigFetch } from "@/composables/useConfigFetch"; // Assuming this is the correct path to your composable
+import { ref } from "vue";
+import { useConfigFetch } from "@/composables/useConfigFetch"; // Assuming this is the correct path
 import type { BirthdayUser } from "@/interfaces/BirthdayUser";
 import type { FilterButton } from "@/interfaces/FilterButton";
-import { formatBirthdayToText } from '@/helper/formatHelper'; // Import the helper function
+import { formatBirthdayToText } from '@/helper/formatHelper';
 import Dialog from '@/components/Dialog.vue';
-import { birthdateStorage } from '@/stores/birthday'; // Sesuaikan path jika diperlukan
-
-
 
 export default defineComponent({
     components: {
         Dialog,
     },
-    setup() {
-        // const birthdayStore = birthdateStorage();
-        const pending = ref(true); // Define pending outside setup and initialize with ref
+    async setup() { // setup function now async
+        const pending = ref(true);
         const result = ref<BirthdayUser[]>([]);
         const isActive = ref(true);
         const showCommentDialog = ref<boolean>(false);
-        const users = ref<BirthdayUser[]>([]);
         const todayBirthday = ref<BirthdayUser[]>([]);
         const tomorrowBirthday = ref<BirthdayUser[]>([]);
         const thisWeekBirthday = ref<BirthdayUser[]>([]);
@@ -69,18 +64,16 @@ export default defineComponent({
             { active: false, label: "ThisMonth", text: "This Month", icon: "mdi-calendar-month-outline" },
         ]);
 
-
         try {
-            const { data: users, refresh } = useConfigFetch<BirthdayUser[]>("birthday/", {
+            const { data: users } = await useConfigFetch<BirthdayUser[]>("birthday/", {
                 method: 'GET',
                 headers: {
                     'Cache-Control': 'no-cache',
-                }
+                },
             });
 
-            if (Array.isArray(users.value)) {
-
-                var mapData = users.value.map((value) => ({
+            if (users.value && Array.isArray(users.value)) {
+                const mapData = users.value.map((value) => ({
                     churchID: value.churchID,
                     name: value.name,
                     email: value.email,
@@ -89,23 +82,21 @@ export default defineComponent({
                     imageUrl: "",
                 }));
 
-                const today = mapData.filter((user) => user.due === "Today");
-                const tomorrow = mapData.filter((user) => user.due === "Tomorrow");
-                const thisWeek = mapData.filter((user) => user.due === "ThisWeek");
-                const thisMonth = mapData.filter((user) => user.due === "ThisMonth");
+                // Filter data based on due dates
+                todayBirthday.value = mapData.filter((user) => user.due === "Today");
+                tomorrowBirthday.value = mapData.filter((user) => user.due === "Tomorrow");
+                thisWeekBirthday.value = mapData.filter((user) => user.due === "ThisWeek");
+                thisMonthBirthday.value = mapData.filter((user) => user.due === "ThisMonth");
 
-                todayBirthday.value = today;
-                tomorrowBirthday.value = tomorrow;
-                thisWeekBirthday.value = thisWeek;
-                thisMonthBirthday.value = thisMonth;
-
-                result.value = today; // Default to today's birthday
+                // Default to today's birthdays
+                result.value = todayBirthday.value;
             }
         } catch (error) {
             console.error("Error fetching data:", error);
         } finally {
             pending.value = false;
         }
+
         const handleToggleChip = ({
             isActive,
             currentLabel,
@@ -133,7 +124,6 @@ export default defineComponent({
             buttons.value = newButtons;
         };
 
-
         const handleActionButton = () => {
             showCommentDialog.value = true;
         };
@@ -145,12 +135,12 @@ export default defineComponent({
             isActive,
             handleToggleChip,
             handleActionButton,
-            showCommentDialog
+            showCommentDialog,
         };
     },
 });
-
 </script>
+
 
 <style scoped>
 /* Add styles for rounded corners */
