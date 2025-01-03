@@ -28,7 +28,7 @@ jobs:
         with:
           node-version: 'latest'
 
-      - name: 🔨 Build Project
+      - name: 🔨 Build Projects
         run: |
           npm install
           npm run build
